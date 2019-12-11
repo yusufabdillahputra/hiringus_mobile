@@ -23,25 +23,87 @@ import {
 } from 'native-base';
 import MenuFooter from '../Global/Menu/MenuFooter';
 
-class Company extends Component {
-  render () {
-    return (
-      <Container>
-        <Header transparent androidStatusBarColor={Styling.statusBar}>
-          <Left style={{flex: 0.53}} />
-          <Body>
-            <Title style={Styling.primary}>All Company</Title>
-          </Body>
-        </Header>
-        <Content padder>
+/**
+ * Redux Actions
+ */
+import { connect } from 'react-redux';
+import { readAll } from '../Utils/redux/actions/company/readAll';
+import LoadingScreen from '../Global/LoadingScreen';
+import EmptyResponse from '../Global/EmptyResponse';
 
-        </Content>
-        <MenuFooter
-          navigation={this.props.navigation}
-        />
-      </Container>
-    );
+class Company extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      isLoading: true,
+      propsCompany: null,
+    }
+  }
+
+  async componentDidMount () {
+    const propsCompany = await this.setPropsCompany();
+    await this.setState({
+      isLoading: false,
+      propsCompany: propsCompany,
+    });
+  }
+
+  async setPropsCompany () {
+    const company = await this.props.dispatch(readAll());
+    return company.value.data.payload;
+  }
+
+  render () {
+    const { propsCompany } = this.state
+    if (this.state.isLoading) {
+      return <LoadingScreen color={'skyblue'}/>;
+    } else {
+      return (
+        <Container>
+          <Header transparent androidStatusBarColor={Styling.statusBar}>
+            <Left />
+            <Body>
+              <Title style={{
+                color: Styling.primary.color,
+                marginLeft: 35
+              }}>All Company</Title>
+            </Body>
+            <Right style={{flex: 0.35}}>
+              <Button
+                iconRight
+                transparent
+                onPress={
+                  () => this.props.navigation.navigate('CompanySearchScreen')
+                }
+              >
+                <Icon style={Styling.primary} type="FontAwesome5" name="search" />
+              </Button>
+            </Right>
+          </Header>
+          <Content padder>
+            {console.log(propsCompany)}
+            {
+              propsCompany.length > 0
+                ? propsCompany.map((item, index) => {
+                  return console.log(item)
+                })
+                : <EmptyResponse />
+            }
+          </Content>
+          <MenuFooter
+            navigation={this.props.navigation}
+          />
+        </Container>
+      );
+    }
   }
 }
 
-export default Company;
+const mapStateToProps = state => {
+  return {
+    data: state,
+  };
+};
+
+export default connect(mapStateToProps)(Company);

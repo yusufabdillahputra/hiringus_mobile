@@ -6,6 +6,7 @@
  */
 
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native'
 import { Image } from 'react-native';
 import Styling from '../Global/StyleSheet';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -30,6 +31,17 @@ import {
 import MenuFooter from '../Global/Menu/MenuFooter';
 
 class Home extends Component {
+  constructor (props) {
+    super(props);
+
+
+  }
+
+  async componentDidMount () {
+    const jwt = await AsyncStorage.getItem('jwt')
+    await console.log(jwt)
+  }
+
   render () {
     return (
       <Container>

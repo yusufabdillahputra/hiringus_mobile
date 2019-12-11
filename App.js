@@ -7,17 +7,20 @@
  */
 
 import React, { Component } from 'react';
+import { PersistGate } from "redux-persist/integration/react";
+
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
-import store from './src/Utils/redux/store';
 import { fromBottom } from 'react-navigation-transitions';
+
+import configureStore from './src/Utils/redux/store';
 
 /**
  * Screens
  */
 import Home from './src/Screens/Home';
-import Login from './src/Screens/Login';
+import Login from './src/Components/Profile/Login';
 import Engineer from './src/Screens/Engineer';
 import Company from './src/Screens/Company';
 import Project from './src/Screens/Project';
@@ -53,11 +56,15 @@ const RootStack = createStackNavigator({
 
 const Navigation = createAppContainer(RootStack);
 
+const { store, persistor } = configureStore();
+
 class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Navigation/>
+        <PersistGate persistor={persistor}>
+          <Navigation/>
+        </PersistGate>
       </Provider>
     );
   }
