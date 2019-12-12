@@ -7,12 +7,12 @@
  */
 
 import React, { Component } from 'react';
-import { PersistGate } from "redux-persist/integration/react";
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
-import { fromBottom } from 'react-navigation-transitions';
+import { fromBottom, fromTop } from 'react-navigation-transitions';
 
 import configureStore from './src/Utils/redux/store';
 
@@ -26,48 +26,62 @@ import Company from './src/Screens/Company';
 import Project from './src/Screens/Project';
 import Profile from './src/Screens/Profile';
 import EngineerSearch from './src/Components/Engineer/EngineerSearch';
+import CompanySearch from './src/Components/Company/CompanySearch';
+
+const ProjectStack = createStackNavigator({
+  ProjectStack : {
+    screen: Project
+  }
+}, {
+  transitionConfig: () => fromTop(),
+})
 
 const RootStack = createStackNavigator({
   HomeScreen: {
-    screen: Home
+    screen: Home,
   },
-  LoginScreen : {
-    screen: Login
+  LoginScreen: {
+    screen: Login,
   },
-  ProjectScreen : {
-    screen: Project
+  ProjectScreen: {
+    screen: ProjectStack,
   },
-  ProfileScreen : {
-    screen: Profile
+  ProfileScreen: {
+    screen: Profile,
   },
-  EngineerScreen : {
-    screen: Engineer
+  EngineerScreen: {
+    screen: Engineer,
   },
-  EngineerSearchScreen : {
-    screen: EngineerSearch
+  EngineerSearchScreen: {
+    screen: EngineerSearch,
   },
-  CompanyScreen : {
-    screen: Company
+  CompanyScreen: {
+    screen: Company,
+  },
+  CompanySearchScreen: {
+    screen: CompanySearch,
   },
 }, {
   headerMode: 'none',
-  transitionConfig : () => fromBottom()
-})
+  transitionConfig: () => fromBottom(),
+});
+
+
 
 const Navigation = createAppContainer(RootStack);
 
-const { store, persistor } = configureStore();
+const {store, persistor} = configureStore();
 
 class App extends Component {
   render () {
     return (
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
+      <PersistGate persistor={persistor}>
+        <Provider store={store}>
           <Navigation/>
-        </PersistGate>
-      </Provider>
+        </Provider>
+      </PersistGate>
     );
   }
 }
 
-export default App
+export default App;

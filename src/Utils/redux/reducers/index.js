@@ -10,6 +10,7 @@ import Company_readById from './company/readById'
 import Project_readByCreatedBy from './project/readByCreatedBy'
 import Project_readById from './project/readById'
 import Project_readByIdProjectEngineer from './project/readByIdProjectEngineer'
+import Component_Authentication from './components/authentication'
 
 export default combineReducers({
   Users_readAllProjectSkillEngineer,
@@ -18,5 +19,6 @@ export default combineReducers({
   Company_readById,
   Project_readByCreatedBy,
   Project_readById,
-  Project_readByIdProjectEngineer
+  Project_readByIdProjectEngineer,
+  Component_Authentication
 })

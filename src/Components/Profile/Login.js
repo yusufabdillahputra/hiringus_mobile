@@ -26,6 +26,13 @@ import {
 import LoadingScreen from '../../Global/LoadingScreen';
 import AlertCard from '../../Global/AlertCard';
 
+/**
+ * Redux Actions
+ */
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { authentication } from '../../Utils/redux/actions/components/authentication'
+
 class Login extends Component {
   constructor (props) {
     super(props);
@@ -47,7 +54,6 @@ class Login extends Component {
         password_users: this.state.password,
       };
       const responseApi = await post('/auth/login', body);
-      await console.log(responseApi);
       await this.isAuthentication(responseApi);
     }
   }
@@ -56,13 +62,14 @@ class Login extends Component {
     const status = await responseApi.data.status;
     if (status === 200) {
       const token = await responseApi.data.payload.token;
-      await AsyncStorage.clear();
-      await AsyncStorage.setItem('jwt', token);
+      await this.props.authentication(token);
       await this.setState({
         isAuth: true,
         isSubmit: false,
       });
-      await this.props.navigation.navigate('HomeScreen')
+      await setTimeout(() => {
+        this.props.navigation.navigate('HomeScreen')
+      }, 3000)
     }
     if (status === 401) {
       this.setState({
@@ -226,4 +233,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ authentication }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(Login);

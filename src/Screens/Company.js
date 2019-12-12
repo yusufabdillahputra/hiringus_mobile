@@ -30,35 +30,51 @@ import { connect } from 'react-redux';
 import { readAll } from '../Utils/redux/actions/company/readAll';
 import LoadingScreen from '../Global/LoadingScreen';
 import EmptyResponse from '../Global/EmptyResponse';
+import CompanyCard from '../Components/Company/CompanyCard';
 
 class Company extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
+      isUnauthorized: false,
       isLoading: true,
       propsCompany: null,
     }
   }
 
   async componentDidMount () {
-    const propsCompany = await this.setPropsCompany();
-    await this.setState({
-      isLoading: false,
-      propsCompany: propsCompany,
-    });
+    const jwt = await this.props.data.Component_Authentication.token;
+    if (jwt !== null) {
+      const propsCompany = await this.setPropsCompany(jwt);
+      await this.setState({
+        isUnauthorized: true,
+        isLoading: false,
+        propsCompany: propsCompany,
+      });
+    }
+    if (jwt === null) {
+      this.setState({
+        isLoading: false,
+        isUnauthorized: false
+      })
+    }
   }
 
-  async setPropsCompany () {
-    const company = await this.props.dispatch(readAll());
-    return company.value.data.payload;
+  async setPropsCompany (jwt = null) {
+    const company = await this.props.dispatch(readAll(jwt));
+    return company.value.data.payload.rows;
   }
 
   render () {
-    const { propsCompany } = this.state
     if (this.state.isLoading) {
       return <LoadingScreen color={'skyblue'}/>;
-    } else {
+    }
+    if (this.state.isUnauthorized === false) {
+      return this.props.navigation.navigate('LoginScreen')
+    }
+    else {
+      const { propsCompany } = this.state
       return (
         <Container>
           <Header transparent androidStatusBarColor={Styling.statusBar}>
@@ -82,11 +98,15 @@ class Company extends Component {
             </Right>
           </Header>
           <Content padder>
-            {console.log(propsCompany)}
             {
               propsCompany.length > 0
                 ? propsCompany.map((item, index) => {
-                  return console.log(item)
+                  return <CompanyCard
+                    name={item.name_company}
+                    image={item.photo_company}
+                    navigation={this.props.navigation}
+                    key={index}
+                  />
                 })
                 : <EmptyResponse />
             }
