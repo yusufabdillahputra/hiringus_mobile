@@ -28,13 +28,11 @@ class MenuFooter extends Component {
 
   async componentDidMount () {
     const jwt = await this.props.data.Component_Authentication.token;
-    await console.log(jwt)
     if (jwt !== "null") {
       await this.setState({
         isLogin: true,
         token: jwt
       })
-
     }
   }
 

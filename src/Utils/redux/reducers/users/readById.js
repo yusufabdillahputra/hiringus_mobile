@@ -7,6 +7,11 @@ const initialState = {
 
 const readById = (state = initialState, action) => {
   switch (action.type) {
+    case 'READ_BY_ID_USERS':
+      return {
+        ...state,
+        stateArray: action.payload
+      }
     case 'READ_BY_ID_USERS_PENDING':
       return {
         ...state,

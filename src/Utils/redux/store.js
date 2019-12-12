@@ -20,7 +20,7 @@ export default () => {
   const logger = createLogger();
   const store = createStore(
     persistedReducer,
-    applyMiddleware(logger, promiseMiddleware),
+    applyMiddleware(promiseMiddleware, logger)
   );
   const persistor = persistStore(store);
   return {
