@@ -15,7 +15,7 @@ import {
   Text,
   Button,
   Right,
-  Left
+  Left,
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
 import { baseUriApi } from '../../Utils/axios';
@@ -26,65 +26,70 @@ class EngineerCard extends Component {
     super(props);
 
     this.state = {
-      isLoading : true,
+      isLoading: true,
       totalProjects: 0,
-      successRate: 0
-    }
+      successRate: 0,
+    };
   }
 
   async componentDidMount () {
-    const formula = await this.formulaSuccessRate(this.props.projects)
+    const formula = await this.formulaSuccessRate(this.props.projects);
     await this.setState({
       isLoading: false,
       totalProjects: formula.projectAll,
-      successRate: formula.result
-    })
+      successRate: formula.result,
+    });
   }
 
   formulaSuccessRate (projects) {
-    const projectOffer = []
-    const projectDone = []
-    const projectAccept = []
+    const projectOffer = [];
+    const projectDone = [];
+    const projectAccept = [];
     // eslint-disable-next-line array-callback-return
     projects.map(project => {
       if (project.status_project_engineer === 0) {
-        projectOffer.push(project.id_project_engineer)
+        projectOffer.push(project.id_project_engineer);
       }
       if (project.status_project_engineer === 1) {
-        projectAccept.push(project.id_project_engineer)
+        projectAccept.push(project.id_project_engineer);
       }
       if (project.status_project_engineer === 2) {
-        projectDone.push(project.id_project_engineer)
+        projectDone.push(project.id_project_engineer);
       }
-    })
+    });
     return {
       result: ((projectDone.length) / projectAccept.length) * 100 || 0,
       projectAll: projects.length,
       projectOffer: projectOffer.length,
       projectAccept: projectAccept.length,
-      projectDone: projectDone.length
-    }
+      projectDone: projectDone.length,
+    };
   }
 
   render () {
     if (this.state.isLoading) {
       return <LoadingContent
         color={'skyblue'}
-      />
+      />;
     } else {
       return (
-        <Card style={{
-          borderRadius: 8
-        }}>
-          <CardItem header bordered style={{
-            backgroundColor: Styling.white.color,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8
-          }}>
+        <Card
+          style={{
+            borderRadius: 8,
+          }}
+        >
+          <CardItem
+            header
+            bordered
+            style={{
+              backgroundColor: Styling.white.color,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+            }}>
             <Body>
               <Title
                 style={{
-                  color: Styling.primary.color
+                  color: Styling.primary.color,
                 }}
               >{this.props.name}</Title>
             </Body>
@@ -92,7 +97,7 @@ class EngineerCard extends Component {
           <CardItem cardBody bordered>
             <Image
               source={{
-                uri: `${baseUriApi}/engineer/${this.props.image}`
+                uri: `${baseUriApi}/engineer/${this.props.image}`,
               }}
               style={{height: 200, width: null, flex: 1}}
             />
@@ -124,7 +129,7 @@ class EngineerCard extends Component {
           <Button
             full
             style={{
-              backgroundColor: Styling.primary.color
+              backgroundColor: Styling.primary.color,
             }}
             onPress={
               () => this.props.navigation.navigate('HomeScreen')
@@ -137,7 +142,7 @@ class EngineerCard extends Component {
               backgroundColor: Styling.black.color,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
-              paddingBottom: 0
+              paddingBottom: 0,
             }}
           />
         </Card>

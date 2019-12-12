@@ -12,7 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
-import { fromBottom, fromLeft, fromRight, fromTop } from 'react-navigation-transitions';
+import { fromBottom, fromLeft, fromRight } from 'react-navigation-transitions';
 
 import configureStore from './src/Utils/redux/store';
 
@@ -28,7 +28,10 @@ import Profile from './src/Screens/Profile';
 import EngineerSearch from './src/Components/Engineer/EngineerSearch';
 import CompanySearch from './src/Components/Company/CompanySearch';
 
-const FromLeft = createStackNavigator({
+const RootStack = createStackNavigator({
+  HomeScreen: {
+    screen: Home,
+  },
   EngineerScreen: {
     screen: Engineer,
   },
@@ -41,24 +44,9 @@ const FromLeft = createStackNavigator({
   CompanySearchScreen: {
     screen: CompanySearch,
   },
-}, {
-  headerMode: 'none',
-  transitionConfig: () => fromLeft(),
-})
-
-const FromBottom = createStackNavigator({
-  HomeScreen: {
-    screen: Home,
-  },
   LoginScreen: {
     screen: Login,
   },
-}, {
-  headerMode: 'none',
-  transitionConfig: () => fromBottom(),
-})
-
-const FromRight = createStackNavigator({
   ProjectScreen: {
     screen: Project,
   },
@@ -66,15 +54,7 @@ const FromRight = createStackNavigator({
     screen: Profile,
   },
 }, {
-  headerMode: 'none',
-  transitionConfig: () => fromRight(),
-})
-
-const RootStack = createStackNavigator({
-  FromLeft,
-  FromBottom,
-  FromRight
-}, {
+  initialRouteName: 'HomeScreen',
   headerMode: 'none',
 });
 

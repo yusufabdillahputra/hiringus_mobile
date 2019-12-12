@@ -14,11 +14,10 @@ import {
   Left,
   Icon,
   Button,
-  Text,
   Content,
-  View,
   Body,
   Title,
+  Text,
   Right,
 } from 'native-base';
 import MenuFooter from '../Global/Menu/MenuFooter';
@@ -59,6 +58,7 @@ class Company extends Component {
           isLoading: false,
           isUnauthorized: false
         })
+        this.props.navigation.replace('LoginScreen')
       }
     }
     if (jwt === null) {
@@ -66,6 +66,7 @@ class Company extends Component {
         isLoading: false,
         isUnauthorized: false
       })
+      this.props.navigation.replace('LoginScreen')
     }
   }
 
@@ -77,11 +78,7 @@ class Company extends Component {
   render () {
     if (this.state.isLoading) {
       return <LoadingScreen color={'skyblue'}/>;
-    }
-    if (this.state.isUnauthorized === false) {
-      return this.props.navigation.navigate('LoginScreen')
-    }
-    else {
+    } else {
       const { propsCompany } = this.state
       return (
         <Container>
@@ -107,7 +104,7 @@ class Company extends Component {
           </Header>
           <Content padder>
             {
-              propsCompany.length > 0
+              propsCompany !== null
                 ? propsCompany.map((item, index) => {
                   return <CompanyCard
                     name={item.name_company}

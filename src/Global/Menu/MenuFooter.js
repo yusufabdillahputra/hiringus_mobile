@@ -6,7 +6,6 @@
  */
 
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
 import {
   Icon,
   Button,
@@ -14,6 +13,8 @@ import {
   FooterTab,
 } from 'native-base';
 import Styling from '../StyleSheet';
+
+import { connect } from 'react-redux'
 
 class MenuFooter extends Component {
   constructor (props) {
@@ -26,13 +27,14 @@ class MenuFooter extends Component {
   }
 
   async componentDidMount () {
-    await AsyncStorage.clear()
-    const jwt = await AsyncStorage.getItem('jwt')
-    if (jwt !== null) {
-      this.setState({
+    const jwt = await this.props.data.Component_Authentication.token;
+    await console.log(jwt)
+    if (jwt !== "null") {
+      await this.setState({
         isLogin: true,
         token: jwt
       })
+
     }
   }
 
@@ -41,28 +43,28 @@ class MenuFooter extends Component {
       <Footer>
         <FooterTab style={Styling.bgPrimary}>
           <Button
-            onPress={() => this.props.navigation.navigate('EngineerScreen')}
+            onPress={() => this.props.navigation.replace('EngineerScreen')}
           >
             <Icon type='FontAwesome5' name='users' style={Styling.white}/>
           </Button>
         </FooterTab>
         <FooterTab style={Styling.bgPrimary}>
           <Button
-            onPress={() => this.props.navigation.navigate('CompanyScreen')}
+            onPress={() => this.props.navigation.replace('CompanyScreen')}
           >
             <Icon type='FontAwesome5' name='building' style={Styling.white}/>
           </Button>
         </FooterTab>
         <FooterTab style={Styling.bgPrimary}>
           <Button
-            onPress={() => this.props.navigation.navigate('HomeScreen')}
+            onPress={() => this.props.navigation.replace('HomeScreen')}
           >
             <Icon type='FontAwesome5' name='home' style={Styling.white}/>
           </Button>
         </FooterTab>
         <FooterTab style={Styling.bgPrimary}>
           <Button
-            onPress={() => this.props.navigation.navigate('ProjectScreen')}
+            onPress={() => this.props.navigation.replace('ProjectScreen')}
           >
             <Icon type='FontAwesome5' name='briefcase' style={Styling.white}/>
           </Button>
@@ -71,14 +73,14 @@ class MenuFooter extends Component {
           this.state.isLogin
             ? <FooterTab style={Styling.bgPrimary}>
               <Button
-                onPress={() => this.props.navigation.navigate('ProfileScreen')}
+                onPress={() => this.props.navigation.replace('ProfileScreen')}
               >
                 <Icon type='MaterialIcons' name='face' style={Styling.white}/>
               </Button>
             </FooterTab>
             : <FooterTab style={Styling.bgPrimary}>
               <Button
-                onPress={() => this.props.navigation.navigate('LoginScreen')}
+                onPress={() => this.props.navigation.replace('LoginScreen')}
               >
                 <Icon type='FontAwesome5' name='sign-in-alt' style={Styling.white}/>
               </Button>
@@ -89,4 +91,10 @@ class MenuFooter extends Component {
   }
 }
 
-export default MenuFooter;
+const mapStateToProps = state => {
+  return {
+    data: state,
+  };
+};
+
+export default connect(mapStateToProps)(MenuFooter);

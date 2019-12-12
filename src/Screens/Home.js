@@ -6,66 +6,71 @@
  */
 
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native'
 import { Image } from 'react-native';
 import Styling from '../Global/StyleSheet';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import {
   Container,
   Header,
   Left,
   Right,
-  Icon,
   Body,
   Content,
-  Title,
-  Text,
-  Button,
-  Footer,
-  FooterTab
-} from 'native-base'
+} from 'native-base';
 
 /**
  * Globals
  */
 import MenuFooter from '../Global/Menu/MenuFooter';
+import LoadingScreen from '../Global/LoadingScreen';
 
 class Home extends Component {
+
   constructor (props) {
     super(props);
 
-
+    this.state = {
+      isLoading: true
+    }
   }
 
-  async componentDidMount () {
-    const jwt = await AsyncStorage.getItem('jwt')
-    await console.log(jwt)
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        isLoading: false
+      })
+    }, 1000)
   }
 
   render () {
-    return (
-      <Container>
-        <Header style={Styling.bgWhite} androidStatusBarColor={Styling.statusBar}>
-          <Left style={{flex:0.8}} />
-          <Body>
-            <Image
-              style={{
-                width: 135,
-                height:50
-              }}
-              source={require('../Assets/Image/Logo/logo_transparent.png')}
-            />
-          </Body>
-          <Right/>
-        </Header>
-        <Content padder>
-
-        </Content>
-        <MenuFooter
-          navigation={this.props.navigation}
+    if (this.state.isLoading) {
+      return <LoadingScreen
+        color={'skyblue'}
         />
-      </Container>
-    );
+    } else {
+      return (
+        <Container>
+          <Header transparent androidStatusBarColor={Styling.statusBar}>
+            <Left style={{flex: 0.8}}/>
+            <Body>
+              <Image
+                style={{
+                  width: 135,
+                  height: 50,
+                }}
+                source={require('../Assets/Image/Logo/logo_transparent.png')}
+              />
+            </Body>
+            <Right/>
+          </Header>
+          <Content padder>
+
+          </Content>
+          <MenuFooter
+            navigation={this.props.navigation}
+          />
+        </Container>
+      );
+    }
   }
 }
 

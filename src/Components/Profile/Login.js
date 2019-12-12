@@ -44,6 +44,9 @@ class Login extends Component {
       username: null,
       password: null,
       showToast: false,
+      color: null,
+      title: null,
+      subTitle: null
     };
   }
 
@@ -66,19 +69,29 @@ class Login extends Component {
       await this.setState({
         isAuth: true,
         isSubmit: false,
+        showToast: true,
+        color: '#28A745',
+        title: 'Login Success',
+        subTitle: 'Please wait, loading content...'
       });
       await setTimeout(() => {
-        this.props.navigation.navigate('HomeScreen')
-      }, 3000)
+        this.props.navigation.replace('HomeScreen')
+      }, 2000)
     }
     if (status === 401) {
       this.setState({
         isSubmit: false,
         showToast: true,
+        color: '#d50000',
+        title: 'Unauthorized',
+        subTitle: 'Username or password is wrong'
       });
       setTimeout(() => {
         this.setState({
           showToast: false,
+          color: null,
+          title: null,
+          subTitle: null
         });
       }, 2000);
     }
@@ -218,9 +231,9 @@ class Login extends Component {
                   this.state.showToast
                     ? <AlertCard
                       marginTop={20}
-                      bgColor={'#d50000'}
-                      title={'401, Unauthorized'}
-                      subTitle={'Username or password is wrong'}
+                      bgColor={this.state.color}
+                      title={this.state.title}
+                      subTitle={this.state.subTitle}
                     />
                     : null
                 }

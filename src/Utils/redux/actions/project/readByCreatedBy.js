@@ -1,9 +1,7 @@
 import { get } from '../../../axios'
-const { AsyncStorage } = require('react-native')
 import JWT from 'jsonwebtoken'
 
-export const readByCreatedBy = () => {
-  const jwt = AsyncStorage.getItem('jwt')
+export const readByCreatedBy = (jwt) => {
   if (jwt !== null) {
     const decode = JWT.decode(jwt, { complete: true })
     const idUsers =  decode.payload.id_users

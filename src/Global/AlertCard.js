@@ -19,11 +19,18 @@ class AlertCard extends Component {
     return (
       <Card
         style={{
+          borderRadius: 8,
           marginTop: this.props.marginTop
         }}
       >
         <CardItem
+          header
+          bordered
           style={{
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
             backgroundColor: this.props.bgColor,
           }}
         >

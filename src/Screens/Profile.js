@@ -20,7 +20,22 @@ import {
 import MenuFooter from '../Global/Menu/MenuFooter';
 import Styling from '../Global/StyleSheet';
 
+/**
+ * Redux
+ */
+import { bindActionCreators } from 'redux';
+import { authentication } from '../Utils/redux/actions/components/authentication';
+import { connect } from 'react-redux';
+
 class Profile extends Component {
+
+  async logoutHandler () {
+    await this.props.authentication();
+    await setTimeout(() => {
+      this.props.navigation.navigate('HomeScreen')
+    }, 1000)
+  }
+
   render () {
     return (
       <>
@@ -32,7 +47,13 @@ class Profile extends Component {
             </Body>
           </Header>
           <Content padder>
-
+            <Button
+              onPress={
+                () => this.logoutHandler()
+              }
+            >
+            <Text>Logout</Text>
+            </Button>
           </Content>
           <MenuFooter
             navigation={this.props.navigation}
@@ -43,4 +64,8 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ authentication }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(Profile);

@@ -12,11 +12,11 @@ import {
   Left,
   Icon,
   Button,
-  Text,
   Content,
   Item,
   Input,
-  View, Body, Title, Right,
+  Body,
+  Title
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
 import LoadingScreen from '../../Global/LoadingScreen';
