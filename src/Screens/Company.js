@@ -47,11 +47,19 @@ class Company extends Component {
     const jwt = await this.props.data.Component_Authentication.token;
     if (jwt !== null) {
       const propsCompany = await this.setPropsCompany(jwt);
-      await this.setState({
-        isUnauthorized: true,
-        isLoading: false,
-        propsCompany: propsCompany,
-      });
+      const statusApi = await propsCompany.status;
+      if (statusApi === 200) {
+        await this.setState({
+          isUnauthorized: true,
+          isLoading: false,
+          propsCompany: propsCompany.payload.rows,
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+          isUnauthorized: false
+        })
+      }
     }
     if (jwt === null) {
       this.setState({
@@ -63,7 +71,7 @@ class Company extends Component {
 
   async setPropsCompany (jwt = null) {
     const company = await this.props.dispatch(readAll(jwt));
-    return company.value.data.payload.rows;
+    return company.value.data;
   }
 
   render () {
