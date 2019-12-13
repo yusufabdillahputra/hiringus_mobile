@@ -1,13 +1,22 @@
 import { get } from '../../../axios'
-import JWT from 'jsonwebtoken'
+import jwtDecode from 'jwt-decode'
 
-export const readByCreatedBy = (jwt) => {
+export const readByCreatedBy = (jwt, fieldName = null, fieldValue = null) => {
   if (jwt !== null) {
-    const decode = JWT.decode(jwt, { complete: true })
-    const idUsers =  decode.payload.id_users
-    return {
-      type: 'READ_BY_CREATED_BY_PROJECT',
-      payload: get(`/project/created/${idUsers}`)
+    if (fieldName !== null && fieldValue !== null) {
+      const decode = jwtDecode(jwt)
+      const idUsers =  decode.id_users
+      return {
+        type: 'READ_BY_CREATED_BY_PROJECT',
+        payload: get(`/project/created/${idUsers}?fn=${fieldName}&fv=${fieldValue}`, jwt)
+      }
+    } else {
+      const decode = jwtDecode(jwt)
+      const idUsers =  decode.id_users
+      return {
+        type: 'READ_BY_CREATED_BY_PROJECT',
+        payload: get(`/project/created/${idUsers}`, jwt)
+      }
     }
   } else {
     return {

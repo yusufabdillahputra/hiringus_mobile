@@ -45,17 +45,20 @@ class Profile extends Component {
   }
 
   async componentDidMount () {
-    const jwt = await this.props.auth.token;
-    const decode = await jwtDecode(jwt);
-    const idUsers = await decode.id_users;
-    const roleUsers = await decode.role_users;
-    await this.setState({
-      isLoading : false,
-      idUsers : idUsers,
-      roleUsers : roleUsers,
-      propsProfile : this.props.profile.stateArray.rows[0]
-    })
-    await console.log(this.state)
+    const jwt = await this.props.auth;
+    if (jwt.isFulfilled) {
+      const decode = await jwtDecode(jwt.token);
+      const idUsers = await decode.id_users;
+      const roleUsers = await decode.role_users;
+      await this.setState({
+        isLoading : false,
+        idUsers : idUsers,
+        roleUsers : roleUsers,
+        propsProfile : this.props.profile.stateArray.rows[0]
+      })
+    } else {
+      return this.props.navigation.replace('LoginScreen')
+    }
   }
 
   async logoutHandler () {

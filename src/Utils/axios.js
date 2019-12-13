@@ -1,5 +1,5 @@
 const axios = require('axios')
-const BASE_URL_HAPI = 'http://54.144.101.230:3000'
+const BASE_URL_HAPI = 'http://192.168.42.234:3000'
 
 module.exports = {
 

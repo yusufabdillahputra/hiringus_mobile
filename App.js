@@ -27,6 +27,7 @@ import Profile from './src/Screens/Profile';
 import EngineerSearch from './src/Components/Engineer/EngineerSearch';
 import CompanySearch from './src/Components/Company/CompanySearch';
 import Register from './src/Components/Profile/Register';
+import ProjectSearch from './src/Components/Project/ProjectSearch';
 
 const RootStack = createStackNavigator({
   HomeScreen: {
@@ -52,6 +53,9 @@ const RootStack = createStackNavigator({
   },
   ProjectScreen: {
     screen: Project,
+  },
+  ProjectSearchScreen: {
+    screen: ProjectSearch,
   },
   ProfileScreen: {
     screen: Profile,
