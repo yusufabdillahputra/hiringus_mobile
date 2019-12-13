@@ -38,7 +38,7 @@ class Home extends Component {
       this.setState({
         isLoading: false
       })
-    }, 1000)
+    }, 1)
   }
 
   render () {

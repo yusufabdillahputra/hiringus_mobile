@@ -30,7 +30,6 @@ import { authentication } from '../Utils/redux/actions/components/authentication
 import { readById } from '../Utils/redux/actions/users/readById';
 import { connect } from 'react-redux';
 import LoadingScreen from '../Global/LoadingScreen';
-import { readAllProjectSkillEngineer } from '../Utils/redux/actions/users/readAllProjectSkillEngineer';
 
 class Profile extends Component {
 
@@ -46,26 +45,28 @@ class Profile extends Component {
   }
 
   async componentDidMount () {
-    const jwt = await this.props.token;
+    const jwt = await this.props.auth.token;
     const decode = await jwtDecode(jwt);
     const idUsers = await decode.id_users;
     const roleUsers = await decode.role_users;
-    await this.props.readById(idUsers, jwt);
     await this.setState({
       isLoading : false,
       idUsers : idUsers,
       roleUsers : roleUsers,
-      propsProfile : this.props.profile
+      propsProfile : this.props.profile.stateArray.rows[0]
     })
     await console.log(this.state)
   }
 
   async logoutHandler () {
+    await this.setState({
+      isLoading : true
+    })
     await this.props.authentication();
     await this.props.readById();
     await setTimeout(() => {
       this.props.navigation.replace('HomeScreen')
-    }, 1000)
+    }, 200)
   }
 
   render () {
@@ -109,8 +110,8 @@ class Profile extends Component {
 
 const mapStateToProps = state => {
   return {
-    token: state.Component_Authentication.token,
-    profile: state.Users_readById.stateArray.rows[0]
+    auth: state.Component_Authentication,
+    profile: state.Users_readById
   };
 };
 

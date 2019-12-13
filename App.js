@@ -12,7 +12,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Provider } from 'react-redux';
-import { fromBottom, fromLeft, fromRight } from 'react-navigation-transitions';
 
 import configureStore from './src/Utils/redux/store';
 
@@ -27,6 +26,7 @@ import Project from './src/Screens/Project';
 import Profile from './src/Screens/Profile';
 import EngineerSearch from './src/Components/Engineer/EngineerSearch';
 import CompanySearch from './src/Components/Company/CompanySearch';
+import Register from './src/Components/Profile/Register';
 
 const RootStack = createStackNavigator({
   HomeScreen: {
@@ -46,6 +46,9 @@ const RootStack = createStackNavigator({
   },
   LoginScreen: {
     screen: Login,
+  },
+  RegisterScreen: {
+    screen: Register,
   },
   ProjectScreen: {
     screen: Project,
