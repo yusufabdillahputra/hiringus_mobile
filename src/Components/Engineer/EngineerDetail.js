@@ -187,6 +187,78 @@ class EngineerDetail extends Component {
                 bordered
                 header
                 style={{
+                  backgroundColor: Styling.white.color,
+                  borderTopRightRadius: 8,
+                  borderTopLeftRadius: 8,
+                }}
+              >
+                <Title
+                  style={Styling.primary}
+                >
+                  Hiring Engineer
+                </Title>
+              </CardItem>
+              <Form>
+                <Item
+                  picker
+                  style={{
+                    backgroundColor: Styling.white.color,
+                  }}
+                >
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.project}
+                    onValueChange={
+                      async value => {
+                        await this.setState({
+                          project: value,
+                        });
+                      }
+                    }
+                  >
+                    <Picker.Item label="Select your project" value="0"/>
+                    {
+                      propsProject.length > 0
+                        ? propsProject.map((item, index) => {
+                          return <Picker.Item label={item.name_project} value={item.id_project} key={index}/>
+                        })
+                        : null
+                    }
+                  </Picker>
+                </Item>
+                <Button
+                  full
+                  style={{
+                    backgroundColor: Styling.primary.color,
+                  }}
+                  onPress={
+                    () => this.handleHire()
+                  }
+                >
+                  <Text>Hire</Text>
+                </Button>
+              </Form>
+              <CardItem
+                bordered
+                header
+                style={{
+                  backgroundColor: Styling.black.color,
+                  borderBottomRightRadius: 8,
+                  borderBottomLeftRadius: 8,
+                  paddingBottom: 0,
+                }}
+              />
+            </Card>
+
+            <Card
+              style={{
+                borderRadius: 8,
+              }}
+            >
+              <CardItem
+                bordered
+                header
+                style={{
                   backgroundColor: Styling.primary.color,
                   borderTopRightRadius: 8,
                   borderTopLeftRadius: 8,
@@ -261,72 +333,6 @@ class EngineerDetail extends Component {
                   })
                   : null
               }
-              <CardItem
-                bordered
-                header
-                style={{
-                  backgroundColor: Styling.black.color,
-                  borderBottomRightRadius: 8,
-                  borderBottomLeftRadius: 8,
-                  paddingBottom: 0,
-                }}
-              />
-            </Card>
-            <Card
-              style={{
-                borderRadius: 8,
-              }}
-            >
-              <CardItem
-                bordered
-                header
-                style={{
-                  backgroundColor: Styling.white.color,
-                  borderTopRightRadius: 8,
-                  borderTopLeftRadius: 8,
-                  paddingTop: 0,
-                }}
-              />
-              <Form>
-                <Item
-                  picker
-                  style={{
-                    backgroundColor: Styling.white.color,
-                  }}
-                >
-                  <Picker
-                    mode="dropdown"
-                    selectedValue={this.state.project}
-                    onValueChange={
-                      async value => {
-                        await this.setState({
-                          project: value,
-                        });
-                      }
-                    }
-                  >
-                    <Picker.Item label="Select your project" value="0"/>
-                    {
-                      propsProject.length > 0
-                        ? propsProject.map((item, index) => {
-                          return <Picker.Item label={item.name_project} value={item.id_project} key={index}/>
-                        })
-                        : null
-                    }
-                  </Picker>
-                </Item>
-                <Button
-                  full
-                  style={{
-                    backgroundColor: Styling.primary.color,
-                  }}
-                  onPress={
-                    () => this.handleHire()
-                  }
-                >
-                  <Text>Hire</Text>
-                </Button>
-              </Form>
               <CardItem
                 bordered
                 header
