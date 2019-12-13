@@ -125,7 +125,7 @@ class Profile extends Component {
                 <Title
                   style={Styling.primary}
                 >
-                  {this.state.propsProfile.role_name}
+                  {this.state.propsProfile.role_name.toUpperCase()}
                 </Title>
               </CardItem>
               <CardItem
