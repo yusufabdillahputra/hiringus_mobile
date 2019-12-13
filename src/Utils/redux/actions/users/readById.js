@@ -9,7 +9,7 @@ export const readById = (idUsers = null, jwt = null) => {
   } if (idUsers !== null && jwt !== null) {
     return {
       type: 'READ_BY_ID_USERS',
-      payload: get(`/users/id/${idUsers}`, jwt)
+      payload: get(`/users/id/${idUsers}`, jwt.token)
     }
   }
 }

@@ -132,7 +132,9 @@ class EngineerCard extends Component {
               backgroundColor: Styling.primary.color,
             }}
             onPress={
-              () => this.props.navigation.navigate('HomeScreen')
+              () => this.props.navigation.replace('EngineerDetailScreen', {
+                idUsers: this.props.id
+              })
             }
           >
             <Text>Detail</Text>

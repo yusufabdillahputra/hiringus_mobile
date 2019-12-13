@@ -7,18 +7,16 @@ module.exports = {
 
   get: (url, jwt = null, contentType = 'application/json') => {
     return new Promise((resolve, reject) => {
-      axios.defaults.headers.common['jwt'] = jwt
+      axios.defaults.headers['jwt'] = jwt
       axios({
         method: 'get',
         baseURL: BASE_URL_HAPI,
         url: url,
         headers: {
           common: {
-            'jwt': jwt,
             'Content-Type': contentType
           }
-        },
-        responseType: 'json'
+        }
       })
         .then(result => {
           resolve(result)

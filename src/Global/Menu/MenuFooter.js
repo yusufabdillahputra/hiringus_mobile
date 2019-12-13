@@ -130,9 +130,6 @@ class MenuFooter extends Component {
                     <Icon type='MaterialIcons' name='face' style={Styling.white}/>
                   </Button>
                 </FooterTab>
-
-
-
             :
               this.state.currentScreen === 'LoginScreen'
                 ? <FooterTab style={Styling.bgWhite}>

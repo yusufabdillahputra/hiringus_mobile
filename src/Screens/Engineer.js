@@ -84,6 +84,7 @@ class Engineer extends Component {
               propsEngineer.length > 0
                 ? propsEngineer.map((item, index) => {
                   return <EngineerCard
+                    id={item.engineer.id_users}
                     name={item.engineer.name_users}
                     image={item.engineer.photo_users}
                     projects={item.projects}
