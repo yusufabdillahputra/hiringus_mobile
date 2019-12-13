@@ -21,6 +21,12 @@ const Styling = {
   },
   black: {
     color: '#000000'
+  },
+  red: {
+    color: '#d50000'
+  },
+  green : {
+    color: '#28A745'
   }
 }
 

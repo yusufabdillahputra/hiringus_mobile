@@ -29,6 +29,7 @@ import CompanySearch from './src/Components/Company/CompanySearch';
 import Register from './src/Components/Profile/Register';
 import ProjectSearch from './src/Components/Project/ProjectSearch';
 import EngineerDetail from './src/Components/Engineer/EngineerDetail';
+import ProjectOption from './src/Components/Profile/ProjectOption';
 
 const RootStack = createStackNavigator({
   HomeScreen: {
@@ -63,6 +64,9 @@ const RootStack = createStackNavigator({
   },
   ProfileScreen: {
     screen: Profile,
+  },
+  ProjectOptionScreen: {
+    screen: ProjectOption,
   },
 }, {
   initialRouteName: 'HomeScreen',
