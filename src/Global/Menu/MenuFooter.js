@@ -14,7 +14,7 @@ import {
 } from 'native-base';
 import Styling from '../StyleSheet';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 class MenuFooter extends Component {
   constructor (props) {
@@ -23,66 +23,132 @@ class MenuFooter extends Component {
     this.state = {
       isLogin: false,
       token: null,
+      currentScreen: null,
     };
   }
 
   async componentDidMount () {
     const jwt = await this.props.data.Component_Authentication.token;
-    if (jwt !== "null") {
+    if (jwt !== 'null') {
       await this.setState({
+        currentScreen: this.props.navigation.state.routeName,
         isLogin: true,
-        token: jwt
-      })
+        token: jwt,
+      });
     }
   }
 
   render () {
     return (
       <Footer>
-        <FooterTab style={Styling.bgPrimary}>
-          <Button
-            onPress={() => this.props.navigation.replace('EngineerScreen')}
-          >
-            <Icon type='FontAwesome5' name='users' style={Styling.white}/>
-          </Button>
-        </FooterTab>
-        <FooterTab style={Styling.bgPrimary}>
-          <Button
-            onPress={() => this.props.navigation.replace('CompanyScreen')}
-          >
-            <Icon type='FontAwesome5' name='building' style={Styling.white}/>
-          </Button>
-        </FooterTab>
-        <FooterTab style={Styling.bgPrimary}>
-          <Button
-            onPress={() => this.props.navigation.replace('HomeScreen')}
-          >
-            <Icon type='FontAwesome5' name='home' style={Styling.white}/>
-          </Button>
-        </FooterTab>
-        <FooterTab style={Styling.bgPrimary}>
-          <Button
-            onPress={() => this.props.navigation.replace('ProjectScreen')}
-          >
-            <Icon type='FontAwesome5' name='briefcase' style={Styling.white}/>
-          </Button>
-        </FooterTab>
         {
-          this.state.isLogin
-            ? <FooterTab style={Styling.bgPrimary}>
+          this.state.currentScreen === 'EngineerScreen'
+            ? <FooterTab style={Styling.bgWhite}>
               <Button
-                onPress={() => this.props.navigation.replace('ProfileScreen')}
+                onPress={() => this.props.navigation.replace('EngineerScreen')}
               >
-                <Icon type='MaterialIcons' name='face' style={Styling.white}/>
+                <Icon type='FontAwesome5' name='users' style={Styling.primary}
+                />
               </Button>
             </FooterTab>
             : <FooterTab style={Styling.bgPrimary}>
               <Button
-                onPress={() => this.props.navigation.replace('LoginScreen')}
+                onPress={() => this.props.navigation.replace('EngineerScreen')}
               >
-                <Icon type='FontAwesome5' name='sign-in-alt' style={Styling.white}/>
+                <Icon type='FontAwesome5' name='users'
+                      style={Styling.white}
+                />
               </Button>
             </FooterTab>
+        }
+        {
+          this.state.currentScreen === 'CompanyScreen'
+            ? <FooterTab style={Styling.bgWhite}>
+              <Button
+                onPress={() => this.props.navigation.replace('CompanyScreen')}
+              >
+                <Icon type='FontAwesome5' name='building' style={Styling.primary}/>
+              </Button>
+            </FooterTab>
+            : <FooterTab style={Styling.bgPrimary}>
+              <Button
+                onPress={() => this.props.navigation.replace('CompanyScreen')}
+              >
+                <Icon type='FontAwesome5' name='building' style={Styling.white}/>
+              </Button>
+            </FooterTab>
+        }
+        {
+          this.state.currentScreen === 'HomeScreen'
+            ? <FooterTab style={Styling.bgWhite}>
+              <Button
+                onPress={() => this.props.navigation.replace('HomeScreen')}
+              >
+                <Icon type='FontAwesome5' name='home' style={Styling.primary}/>
+              </Button>
+            </FooterTab>
+            : <FooterTab style={Styling.bgPrimary}>
+              <Button
+                onPress={() => this.props.navigation.replace('HomeScreen')}
+              >
+                <Icon type='FontAwesome5' name='home' style={Styling.white}/>
+              </Button>
+            </FooterTab>
+        }
+        {
+          this.state.currentScreen === 'ProjectScreen'
+            ? <FooterTab style={Styling.bgWhite}>
+              <Button
+                onPress={() => this.props.navigation.replace('ProjectScreen')}
+              >
+                <Icon type='FontAwesome5' name='briefcase' style={Styling.primary}/>
+              </Button>
+            </FooterTab>
+            : <FooterTab style={Styling.bgPrimary}>
+              <Button
+                onPress={() => this.props.navigation.replace('ProjectScreen')}
+              >
+                <Icon type='FontAwesome5' name='briefcase' style={Styling.white}/>
+              </Button>
+            </FooterTab>
+        }
+        {
+          this.state.isLogin
+            ?
+              this.state.currentScreen === 'ProfileScreen'
+                ? <FooterTab style={Styling.bgWhite}>
+                  <Button
+                    onPress={() => this.props.navigation.replace('ProfileScreen')}
+                  >
+                    <Icon type='MaterialIcons' name='face' style={Styling.primary}/>
+                  </Button>
+                </FooterTab>
+                : <FooterTab style={Styling.bgPrimary}>
+                  <Button
+                    onPress={() => this.props.navigation.replace('ProfileScreen')}
+                  >
+                    <Icon type='MaterialIcons' name='face' style={Styling.white}/>
+                  </Button>
+                </FooterTab>
+
+
+
+            :
+              this.state.currentScreen === 'LoginScreen'
+                ? <FooterTab style={Styling.bgWhite}>
+                  <Button
+                    onPress={() => this.props.navigation.replace('LoginScreen')}
+                  >
+                    <Icon type='FontAwesome5' name='sign-in-alt' style={Styling.primary}/>
+                  </Button>
+                </FooterTab>
+                : <FooterTab style={Styling.bgPrimary}>
+                  <Button
+                    onPress={() => this.props.navigation.replace('LoginScreen')}
+                  >
+                    <Icon type='FontAwesome5' name='sign-in-alt' style={Styling.white}/>
+                  </Button>
+                </FooterTab>
         }
       </Footer>
     );

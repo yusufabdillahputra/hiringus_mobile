@@ -99,7 +99,7 @@ class Login extends Component {
       });
       await setTimeout(() => {
         this.props.navigation.replace('HomeScreen')
-      }, 100)
+      }, 2000)
     }
     if (status === 401) {
       this.setState({

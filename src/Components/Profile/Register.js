@@ -158,7 +158,7 @@ class Register extends Component {
                 iconLeft
                 transparent
                 onPress={
-                  () => this.props.navigation.replace('HomeScreen')
+                  () => this.props.navigation.replace('LoginScreen')
                 }
               >
                 <Icon style={Styling.primary} type="MaterialIcons" name="chevron-left"/>
