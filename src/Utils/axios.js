@@ -1,5 +1,5 @@
 const axios = require('axios')
-const BASE_URL_HAPI = 'http://192.168.42.234:3000'
+const BASE_URL_HAPI = 'http://54.144.101.230:3000'
 
 module.exports = {
 
@@ -10,13 +10,7 @@ module.exports = {
       axios.defaults.headers['jwt'] = jwt
       axios({
         method: 'get',
-        baseURL: BASE_URL_HAPI,
-        url: url,
-        headers: {
-          common: {
-            'Content-Type': contentType
-          }
-        }
+        url: BASE_URL_HAPI+url
       })
         .then(result => {
           resolve(result)
@@ -32,14 +26,7 @@ module.exports = {
       axios.defaults.headers.common['jwt'] = jwt
       axios({
         method: 'post',
-        baseURL: BASE_URL_HAPI,
-        url: url,
-        headers: {
-          common: {
-            'jwt': jwt,
-            'Content-Type': contentType
-          }
-        },
+        url: BASE_URL_HAPI+url,
         data: body
       })
         .then(result => {
@@ -56,14 +43,7 @@ module.exports = {
       axios.defaults.headers.common['jwt'] = jwt
       axios({
         method: 'put',
-        baseURL: BASE_URL_HAPI,
-        url: url,
-        headers: {
-          common: {
-            'jwt': jwt,
-            'Content-Type': contentType
-          }
-        },
+        url: BASE_URL_HAPI+url,
         data: body
       })
         .then(result => {
@@ -80,14 +60,7 @@ module.exports = {
       axios.defaults.headers.common['jwt'] = jwt
       axios({
         method: 'delete',
-        baseURL: BASE_URL_HAPI,
-        url: url,
-        headers: {
-          common: {
-            'jwt': jwt,
-            'Content-Type': contentType
-          }
-        },
+        url: BASE_URL_HAPI+url,
         data: body
       })
         .then(result => {

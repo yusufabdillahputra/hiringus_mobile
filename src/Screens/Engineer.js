@@ -53,10 +53,10 @@ class Engineer extends Component {
   }
 
   render () {
-    const { propsEngineer } = this.state
     if (this.state.isLoading) {
       return <LoadingScreen color={'skyblue'}/>;
     } else {
+      const { propsEngineer } = this.state
       return (
         <Container>
           <Header transparent androidStatusBarColor={Styling.statusBar}>
