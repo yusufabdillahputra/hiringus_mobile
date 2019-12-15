@@ -32,7 +32,7 @@ class LoadingScreen extends Component {
             <Row>
               <Col size={2} />
               <Col size={98}>
-                <Title style={Styling.primary}>All engineer has been busy..</Title>
+                <Title style={Styling.primary}>{this.props.message}</Title>
               </Col>
             </Row>
           </Grid>

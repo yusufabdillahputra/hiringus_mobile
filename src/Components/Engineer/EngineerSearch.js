@@ -28,6 +28,7 @@ import { connect } from 'react-redux';
 import { readAllProjectSkillEngineer } from '../../Utils/redux/actions/users/readAllProjectSkillEngineer';
 import EngineerCard from './EngineerCard';
 import EmptySearch from '../../Global/EmptySearch';
+import EmptyResponse from '../../Global/EmptyResponse';
 
 class EngineerSearch extends Component {
   constructor (props) {
@@ -127,7 +128,9 @@ class EngineerSearch extends Component {
                     key={index}
                   />
                 })
-                : <EmptySearch />
+                : <EmptySearch
+                  message={'All engineer has been busy..'}
+                />
             }
           </Content>
         </Container>

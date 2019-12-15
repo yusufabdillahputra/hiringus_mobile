@@ -7,42 +7,77 @@
 
 import React, { Component } from 'react';
 import {
+  ScrollView,
+  RefreshControl,
+  SafeAreaView,
+} from 'react-native';
+import { FlatGrid } from 'react-native-super-grid';
+import {
   Container,
   Header,
   Left,
   Icon,
   Button,
   Content,
-  Item,
-  Input,
   Body,
   Title, CardItem, Text, Card,
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
 import LoadingScreen from '../../Global/LoadingScreen';
+import EmptyResponse from '../../Global/EmptyResponse';
 
 /**
  * Redux Actions
  */
 import { connect } from 'react-redux';
-import ProjectCard from './ProjectCard';
+import { readByIdProjectEngineer } from '../../Utils/redux/actions/project/readByIdProjectEngineer';
 import moment from 'moment';
+import EngineerCard from './EngineerCard';
 
 class ProjectDetail extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
+      isRefresh: false,
       isLoading: true,
-      propsProject: null
+      propsProject: null,
+      propsEngineer: null,
     };
   }
 
+  async componentDidUpdate (prevProps, prevState) {
+    if (prevState.isRefresh !== this.state.isRefresh) {
+      await this.setState({
+        isRefresh: false,
+      });
+      await this.getData();
+    }
+  }
+
+  onRefresh = async event => {
+    await this.setState({
+      isRefresh: true,
+      isLoading: true,
+    });
+  };
+
   async componentDidMount () {
+    await this.getData();
+  }
+
+  async getData () {
+    const propsEngineer = await this.setPropsEngineer(this.props.navigation.state.params.propsProject.id_project);
     await this.setState({
       isLoading: false,
-      propsProject: this.props.navigation.state.params.propsProject
-    })
+      propsProject: this.props.navigation.state.params.propsProject,
+      propsEngineer: propsEngineer,
+    });
+  }
+
+  async setPropsEngineer (idProject) {
+    const engineer = await this.props.dispatch(readByIdProjectEngineer(idProject));
+    return engineer.value.data.payload.rows;
   }
 
   render () {
@@ -51,7 +86,7 @@ class ProjectDetail extends Component {
         color={'skyblue'}
       />;
     } else {
-      const { propsProject } = this.state
+      const {propsProject, propsEngineer} = this.state;
       return (
         <Container>
           <Header transparent androidStatusBarColor={Styling.statusBar}>
@@ -67,13 +102,19 @@ class ProjectDetail extends Component {
               </Button>
             </Left>
             <Body>
-              <Title style={{
-                color: Styling.primary.color,
-                marginLeft: 14,
-              }}>Detail Project</Title>
+              <Title
+                style={{
+                  color: Styling.primary.color,
+                  marginLeft: 14,
+                }}
+              >
+                Detail Project
+              </Title>
             </Body>
           </Header>
-          <Content padder>
+          <Content
+            padder
+          >
             <Card
               style={{
                 borderRadius: 8,
@@ -83,14 +124,14 @@ class ProjectDetail extends Component {
                 header
                 bordered
                 style={{
-                  backgroundColor: Styling.white.color,
+                  backgroundColor: Styling.primary.color,
                   borderTopLeftRadius: 8,
                   borderTopRightRadius: 8,
                 }}>
                 <Body>
                   <Title
                     style={{
-                      color: Styling.primary.color,
+                      color: Styling.white.color,
                     }}
                   >
                     {propsProject.name_project}
@@ -107,7 +148,7 @@ class ProjectDetail extends Component {
                 </Left>
                 <Body>
                   <Text>
-                    {moment(propsProject.deadline_project, "YYYYMMDD").fromNow()}
+                    {moment(propsProject.deadline_project, 'YYYYMMDD').fromNow()}
                   </Text>
                 </Body>
               </CardItem>
@@ -121,22 +162,33 @@ class ProjectDetail extends Component {
                 </Left>
                 <Body>
                   <Text>
-                    Rp. {propsProject.fee_project}
+                    {
+                      new Intl.NumberFormat(['en'],
+                        {
+                          style: 'currency',
+                          currency: 'IDR',
+                          currencyDisplay: 'symbol',
+                          minimumFractionDigits: 0,
+                        }).format(propsProject.fee_project)
+                    }
+                  </Text>
+                </Body>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <Text>
+                    Description
                   </Text>
                 </Body>
               </CardItem>
               <CardItem
                 bordered
               >
-                <Left>
-                  <Title
-                    style={{
-                      color: Styling.primary.color,
-                    }}
-                  >
-                    Description
-                  </Title>
-                </Left>
+                <Body>
+                  <Text>
+                    {propsProject.description_project}
+                  </Text>
+                </Body>
               </CardItem>
               <CardItem
                 bordered
@@ -145,22 +197,69 @@ class ProjectDetail extends Component {
                   borderBottomRightRadius: 8,
                 }}
               >
-                <Body>
-                  <Text>
-                    {propsProject.description_project}
-                  </Text>
+                <Left
+                  style={{
+                    flex: 0.45,
+                  }}
+                />
+                <Body
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  <Title
+                    style={{
+                      color: Styling.primary.color,
+                    }}
+                  >
+                    List Engineers
+                  </Title>
                 </Body>
               </CardItem>
             </Card>
-            <Title
-              style={{
-                color: Styling.primary.color,
-                marginTop: 20
-              }}
-            >
-              Engineer
-            </Title>
           </Content>
+          <SafeAreaView
+            style={{
+              flex: 1,
+            }}
+          >
+            <ScrollView
+              style={{
+                flex: 1,
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefresh}
+                  onRefresh={this.onRefresh}
+                  progressViewOffset={0}
+                />
+              }
+            >
+              <Content padder>
+
+                {
+                  propsEngineer.length > 0
+                    ? <FlatGrid
+                      items={propsEngineer}
+                      renderItem={({item, index}) => (
+                        <EngineerCard
+                          id={item.id_users}
+                          name={item.name_users}
+                          image={item.photo_users}
+                          status={item.status_project_engineer}
+                          navigation={this.props.navigation}
+                          key={index}
+                        />
+                      )}
+                    />
+                    : <EmptyResponse
+                      message={'Engineer empty...'}
+                    />
+
+                }
+              </Content>
+            </ScrollView>
+          </SafeAreaView>
         </Container>
       );
     }
