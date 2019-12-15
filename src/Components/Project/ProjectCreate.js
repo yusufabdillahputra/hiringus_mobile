@@ -44,15 +44,6 @@ class ProjectCreate extends Component {
     };
   }
 
-  async componentDidUpdate (prevProps, prevState) {
-    if (prevState.isSubmit !== this.state.isSubmit) {
-      await this.setState({
-        isLoading: false,
-        isSubmit: false,
-      });
-    }
-  }
-
   async alertDanger() {
     await this.setState({
       isLoading: false,
@@ -97,6 +88,10 @@ class ProjectCreate extends Component {
       });
       const responseApiCode = responseApi.data.status;
       if (responseApiCode === 200) {
+        await this.setState({
+          isLoading: false,
+          isSubmit: false,
+        })
         await Alert.alert(
           'Success',
           'Create project successfully',

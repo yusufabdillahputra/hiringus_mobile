@@ -49,15 +49,6 @@ class ProjectEdit extends Component {
     };
   }
 
-  async componentDidUpdate (prevProps, prevState) {
-    if (prevState.isSubmit !== this.state.isSubmit) {
-      await this.setState({
-        isLoading: false,
-        isSubmit: false,
-      });
-    }
-  }
-
   async alertDanger () {
     await this.setState({
       isLoading: false,
@@ -90,7 +81,6 @@ class ProjectEdit extends Component {
       deadline: new Date(this.props.navigation.state.params.propsProject.deadline_project),
       fee: this.props.navigation.state.params.propsProject.fee_project,
     });
-    await console.log(this.state)
   }
 
   async submitHandler () {
@@ -107,8 +97,12 @@ class ProjectEdit extends Component {
       fee_project: this.state.fee,
       updated_by: decode.id_users,
     }, jwt);
-    const responseApiCode = responseApi.data.status;
+    const responseApiCode = await responseApi.data.status;
     if (responseApiCode === 200) {
+      await this.setState({
+        isLoading: false,
+        isSubmit: false,
+      });
       await Alert.alert(
         'Success',
         'Edit project successfully',
