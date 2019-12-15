@@ -100,15 +100,13 @@ class ProjectEdit extends Component {
     });
     const jwt = await this.props.data.token;
     const decode = await jwtDecode(jwt)
-    const body = {
+    const responseApi = await put(`/project/id/${this.state.idProject}`, {
       name_project: this.state.name,
       description_project: this.state.description,
       deadline_project: this.state.deadline,
       fee_project: this.state.fee,
       updated_by: decode.id_users,
-    };
-    const responseApi = await put(`/project/id/${this.state.idProject}`, body, jwt);
-    await console.log(responseApi)
+    }, jwt);
     const responseApiCode = responseApi.data.status;
     if (responseApiCode === 200) {
       await Alert.alert(

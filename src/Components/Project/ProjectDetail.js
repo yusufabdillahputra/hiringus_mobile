@@ -6,6 +6,7 @@
  */
 
 import React, { Component } from 'react';
+import currencyFormatter from 'currency-formatter';
 import {
   ScrollView,
   RefreshControl,
@@ -163,13 +164,14 @@ class ProjectDetail extends Component {
                 <Body>
                   <Text>
                     {
-                      new Intl.NumberFormat(['en'],
+                      propsProject.fee_project !== null
+                        ? currencyFormatter.format(propsProject.fee_project,
                         {
-                          style: 'currency',
-                          currency: 'IDR',
-                          currencyDisplay: 'symbol',
-                          minimumFractionDigits: 0,
-                        }).format(propsProject.fee_project)
+                          code: 'en-US',
+                          symbol: 'Rp. ',
+                          decimalDigits: 0
+                        })
+                        : `Rp. `+0
                     }
                   </Text>
                 </Body>
@@ -222,7 +224,7 @@ class ProjectDetail extends Component {
             style={{
               position: 'absolute',
               backgroundColor: Styling.primary.color,
-              zIndex: 5
+              zIndex: 5,
             }}
             position="bottomRight"
             onPress={

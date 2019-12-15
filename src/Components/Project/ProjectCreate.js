@@ -90,12 +90,11 @@ class ProjectCreate extends Component {
       isLoading: true,
     });
     if (this.state.createdBy !== null && this.state.deadline !== null && this.state.name !== null) {
-      const body = {
+      const responseApi = await post('/project', {
         name_project: this.state.name,
         deadline_project: this.state.deadline,
         created_by: this.state.createdBy
-      }
-      const responseApi = await post('/project', body);
+      });
       const responseApiCode = responseApi.data.status;
       if (responseApiCode === 200) {
         await Alert.alert(
