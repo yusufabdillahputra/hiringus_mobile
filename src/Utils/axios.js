@@ -23,7 +23,7 @@ module.exports = {
 
   post: (url, body, jwt = null, contentType = 'application/json') => {
     return new Promise((resolve, reject) => {
-      axios.defaults.headers.common['jwt'] = jwt
+      axios.defaults.headers['jwt'] = jwt
       axios({
         method: 'post',
         url: BASE_URL_HAPI+url,
@@ -40,7 +40,7 @@ module.exports = {
 
   put: (url, body, jwt = null, contentType = 'application/json') => {
     return new Promise((resolve, reject) => {
-      axios.defaults.headers.common['jwt'] = jwt
+      axios.defaults.headers['jwt'] = jwt
       axios({
         method: 'put',
         url: BASE_URL_HAPI+url,
@@ -57,7 +57,7 @@ module.exports = {
 
   delete: (url, body, contentType = 'application/json') => {
     return new Promise((resolve, reject) => {
-      axios.defaults.headers.common['jwt'] = jwt
+      axios.defaults.headers['jwt'] = jwt
       axios({
         method: 'delete',
         url: BASE_URL_HAPI+url,

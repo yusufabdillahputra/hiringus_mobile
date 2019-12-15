@@ -200,7 +200,6 @@ class Login extends Component {
                 <Icon
                   active
                   type='SimpleLineIcons'
-                  secureTextEntry={true}
                   name='key'
                   style={{
                     paddingLeft: 30,
@@ -208,6 +207,7 @@ class Login extends Component {
                 />
                 <Input
                   placeholder='Password'
+                  secureTextEntry={true}
                   onChangeText={
                     async value => {
                       await this.setState({

@@ -23,10 +23,10 @@ const Styling = {
     color: '#000000'
   },
   red: {
-    color: '#d50000'
+    color: '#FF6666'
   },
   green : {
-    color: '#28A745'
+    color: '#69f0ae'
   }
 }
 

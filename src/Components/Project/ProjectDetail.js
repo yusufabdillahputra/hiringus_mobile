@@ -20,7 +20,7 @@ import {
   Button,
   Content,
   Body,
-  Title, CardItem, Text, Card,
+  Title, CardItem, Text, Card, Fab,
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
 import LoadingScreen from '../../Global/LoadingScreen';
@@ -218,6 +218,21 @@ class ProjectDetail extends Component {
               </CardItem>
             </Card>
           </Content>
+          <Fab
+            style={{
+              position: 'absolute',
+              backgroundColor: Styling.primary.color,
+              zIndex: 5
+            }}
+            position="bottomRight"
+            onPress={
+              () => this.props.navigation.replace('ProjectEditScreen', {
+                propsProject: propsProject,
+              })
+            }
+          >
+            <Icon style={Styling.white} type="MaterialCommunityIcons" name="file-document-edit-outline"/>
+          </Fab>
           <SafeAreaView
             style={{
               flex: 1,

@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Alert } from 'react-native'
+import { Alert } from 'react-native';
 import {
   Container,
   Header,
@@ -21,22 +21,27 @@ import {
   Item,
   Text,
   DatePicker,
+  Textarea
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
 import LoadingScreen from '../../Global/LoadingScreen';
-import { post } from '../../Utils/axios';
+import { put } from '../../Utils/axios';
 import AlertCard from '../../Global/AlertCard';
+import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode'
 
-class ProjectCreate extends Component {
+class ProjectEdit extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
       isSubmit: false,
       isLoading: true,
+      idProject: null,
       name: null,
+      description: null,
       deadline: null,
-      createdBy: null,
+      fee: null,
       showToast: false,
       color: null,
       title: null,
@@ -53,14 +58,14 @@ class ProjectCreate extends Component {
     }
   }
 
-  async alertDanger() {
+  async alertDanger () {
     await this.setState({
       isLoading: false,
       isSubmit: false,
       showToast: true,
       color: Styling.red.color,
       title: 'Required',
-      subTitle: 'All form cannot be empty',
+      subTitle: 'Some form cannot be empty',
     });
     setTimeout(() => {
       this.setState({
@@ -78,10 +83,14 @@ class ProjectCreate extends Component {
 
   async getData () {
     await this.setState({
-      deadline: new Date(),
       isLoading: false,
-      createdBy: this.props.navigation.state.params.idUsers,
+      idProject: this.props.navigation.state.params.propsProject.id_project,
+      name: this.props.navigation.state.params.propsProject.name_project,
+      description: this.props.navigation.state.params.propsProject.description_project,
+      deadline: new Date(this.props.navigation.state.params.propsProject.deadline_project),
+      fee: this.props.navigation.state.params.propsProject.fee_project,
     });
+    await console.log(this.state)
   }
 
   async submitHandler () {
@@ -89,32 +98,37 @@ class ProjectCreate extends Component {
       isSubmit: true,
       isLoading: true,
     });
-    if (this.state.createdBy !== null && this.state.deadline !== null && this.state.name !== null) {
-      const body = {
-        name_project: this.state.name,
-        deadline_project: this.state.deadline,
-        created_by: this.state.createdBy
-      }
-      const responseApi = await post('/project', body);
-      const responseApiCode = responseApi.data.status;
-      if (responseApiCode === 200) {
-        await Alert.alert(
-          'Success',
-          'Create project successfully',
-          [
-            {
-              text: 'Create more',
-              style: 'cancel',
-            },
-            {text: 'Back to list', onPress: () => this.props.navigation.replace('ProjectScreen')},
-          ],
-          {cancelable: false},
-        );
-      } else {
-        await this.alertDanger()
-      }
+    const jwt = await this.props.data.token;
+    const decode = await jwtDecode(jwt)
+    const body = {
+      name_project: this.state.name,
+      description_project: this.state.description,
+      deadline_project: this.state.deadline,
+      fee_project: this.state.fee,
+      updated_by: decode.id_users,
+    };
+    const responseApi = await put(`/project/id/${this.state.idProject}`, body, jwt);
+    await console.log(responseApi)
+    const responseApiCode = responseApi.data.status;
+    if (responseApiCode === 200) {
+      await Alert.alert(
+        'Success',
+        'Edit project successfully',
+        [
+          {
+            text: 'Edit more',
+            style: 'cancel',
+          },
+          {
+            text: 'Back to list', onPress: () => this.props.navigation.replace('ProjectDetailScreen', {
+              propsProject: this.props.navigation.state.params.propsProject
+            }),
+          },
+        ],
+        {cancelable: false},
+      );
     } else {
-      await this.alertDanger()
+      await this.alertDanger();
     }
   }
 
@@ -132,7 +146,9 @@ class ProjectCreate extends Component {
                 iconLeft
                 transparent
                 onPress={
-                  () => this.props.navigation.replace('ProjectScreen')
+                  () => this.props.navigation.replace('ProjectDetailScreen',{
+                    propsProject: this.props.navigation.state.params.propsProject
+                  })
                 }
               >
                 <Icon style={Styling.primary} type="MaterialIcons" name="chevron-left"/>
@@ -142,10 +158,10 @@ class ProjectCreate extends Component {
               <Title
                 style={{
                   color: Styling.primary.color,
-                  marginLeft: 13,
+                  marginLeft: 25,
                 }}
               >
-                Create Project
+                Edit Project
               </Title>
             </Body>
           </Header>
@@ -170,6 +186,7 @@ class ProjectCreate extends Component {
                 />
                 <Input
                   placeholder='Name Project'
+                  defaultValue={this.state.name}
                   onChangeText={
                     async value => {
                       await this.setState({
@@ -195,8 +212,8 @@ class ProjectCreate extends Component {
                   }}
                 />
                 <DatePicker
-                  defaultDate={new Date()}
-                  minimumDate={new Date()}
+                  defaultDate={this.state.deadline}
+                  minimumDate={this.state.deadline}
                   locale={'en'}
                   timeZoneOffsetInMinutes={undefined}
                   modalTransparent={false}
@@ -217,6 +234,62 @@ class ProjectCreate extends Component {
                 <Text>
                   {this.state.deadline.toString().substr(4, 12)}
                 </Text>
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='FontAwesome5'
+                  name='money-bill'
+                  style={{
+                    paddingLeft: 30,
+                  }}
+                />
+                <Input
+                  placeholder='Fee (Rp.)'
+                  defaultValue={this.state.fee}
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        fee: value,
+                      });
+                    }
+                  }
+                />
+              </Item>
+
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='MaterialIcons'
+                  name='description'
+                  style={{
+                    paddingLeft: 30,
+                  }}
+                />
+              <Textarea
+                rowSpan={5}
+                placeholder="Description Project"
+                defaultValue={this.state.description}
+                onChangeText={
+                  async value => {
+                    await this.setState({
+                      description: value,
+                    });
+                  }
+                }
+              />
               </Item>
               <Button
                 rounded
@@ -249,4 +322,10 @@ class ProjectCreate extends Component {
   }
 }
 
-export default ProjectCreate;
+const mapStateToProps = state => {
+  return {
+    data: state.Component_Authentication,
+  };
+};
+
+export default connect(mapStateToProps)(ProjectEdit);

@@ -33,6 +33,7 @@ import ProjectOption from './src/Components/Profile/ProjectOption';
 //import ProjectCreate from './src/Components/Project/ProjectCreate';
 import ProjectDetail from './src/Components/Project/ProjectDetail';
 import ProjectCreate from './src/Components/Project/ProjectCreate';
+import ProjectEdit from './src/Components/Project/ProjectEdit';
 
 const RootStack = createStackNavigator({
   HomeScreen: {
@@ -70,6 +71,9 @@ const RootStack = createStackNavigator({
   },
   ProjectDetailScreen: {
     screen: ProjectDetail,
+  },
+  ProjectEditScreen: {
+    screen: ProjectEdit,
   },
   ProfileScreen: {
     screen: Profile,

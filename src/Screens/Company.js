@@ -7,7 +7,6 @@
 
 import React, { Component } from 'react';
 import Styling from '../Global/StyleSheet';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import {
   Container,
   Header,
