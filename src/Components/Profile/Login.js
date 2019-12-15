@@ -153,116 +153,111 @@ class Login extends Component {
               }}>Login</Title>
             </Body>
           </Header>
-          <Grid>
-            <Row size={60}>
-              <Content padder style={Styling.bgPrimary}>
-                <Body>
-                  <Image
-                    style={{
-                      width: 200,
-                      height: 100,
-                      resizeMode: 'contain',
-                    }}
-                    source={require('../../Assets/Image/Logo/logo_transparent_white.png')}
-                  />
-                </Body>
-                <Body>
-                  <Item
-                    rounded
-                    style={{
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='SimpleLineIcons'
-                      name='user'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Username'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            username: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                  <Item
-                    rounded
-                    style={{
-                      marginTop: 20,
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='SimpleLineIcons'
-                      name='key'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Password'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            password: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                </Body>
-              </Content>
-            </Row>
-            <Row size={40}>
-              <Content padder>
-                <Button
-                  rounded
-                  block
+          <Content padder style={Styling.bgWhite}>
+            <Body>
+              <Image
+                style={{
+                  width: 200,
+                  height: 100,
+                  resizeMode: 'contain',
+                }}
+                source={require('../../Assets/Image/Logo/logo_transparent.png')}
+              />
+            </Body>
+            <Body>
+              <Item
+                rounded
+                style={{
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='SimpleLineIcons'
+                  name='user'
                   style={{
-                    backgroundColor: Styling.primary.color,
-                    marginTop: 10,
+                    paddingLeft: 30,
                   }}
-                  onPress={
-                    () => this.loginHandler()
+                />
+                <Input
+                  placeholder='Username'
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        username: value,
+                      });
+                    }
                   }
-                >
-                  <Text>Login</Text>
-                </Button>
-                <Button
-                  rounded
-                  bordered
-                  block
-                  info
+                />
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='SimpleLineIcons'
+                  secureTextEntry={true}
+                  name='key'
                   style={{
-                    marginTop: 20,
+                    paddingLeft: 30,
                   }}
-                  onPress={
-                    () => this.props.navigation.replace('RegisterScreen')
+                />
+                <Input
+                  placeholder='Password'
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        password: value,
+                      });
+                    }
                   }
-                >
-                  <Text>Register</Text>
-                </Button>
-                {
-                  this.state.showToast
-                    ? <AlertCard
-                      marginTop={20}
-                      bgColor={this.state.color}
-                      title={this.state.title}
-                      subTitle={this.state.subTitle}
-                    />
-                    : null
-                }
-              </Content>
-            </Row>
-          </Grid>
+                />
+              </Item>
+            </Body>
+
+            <Button
+              rounded
+              block
+              style={{
+                backgroundColor: Styling.primary.color,
+                marginTop: 50,
+              }}
+              onPress={
+                () => this.loginHandler()
+              }
+            >
+              <Text>Login</Text>
+            </Button>
+            <Button
+              rounded
+              bordered
+              block
+              info
+              style={{
+                marginTop: 10,
+              }}
+              onPress={
+                () => this.props.navigation.replace('RegisterScreen')
+              }
+            >
+              <Text>Register</Text>
+            </Button>
+            {
+              this.state.showToast
+                ? <AlertCard
+                  marginTop={20}
+                  bgColor={this.state.color}
+                  title={this.state.title}
+                  subTitle={this.state.subTitle}
+                />
+                : null
+            }
+
+          </Content>
         </Container>
       );
     }

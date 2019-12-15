@@ -23,6 +23,7 @@ import {
   Right,
 } from 'native-base';
 import MenuFooter from '../Global/Menu/MenuFooter';
+import jwtDecode from 'jwt-decode';
 
 /**
  * Redux Actions
@@ -41,12 +42,15 @@ class Project extends Component {
       isUnauthorized: false,
       isLoading: true,
       propsProject: null,
+      idUsers: null,
     };
   }
 
   async componentDidMount () {
     const jwt = await this.props.data.Component_Authentication.token;
     if (jwt !== null) {
+      const decode = await jwtDecode(jwt);
+      const idUsers = await decode.id_users;
       const propsProject = await this.setPropsProject(jwt);
       const statusApi = await propsProject.status;
       if (statusApi === 200) {
@@ -54,6 +58,7 @@ class Project extends Component {
           isUnauthorized: true,
           isLoading: false,
           propsProject: propsProject.payload.rows,
+          idUsers: idUsers
         });
       } else {
         this.setState({
@@ -134,7 +139,9 @@ class Project extends Component {
               style={Styling.bgPrimary}
               position="bottomRight"
               onPress={
-                () => this.props.navigation.replace('ProjectCreate')
+                () => this.props.navigation.replace('ProjectCreateScreen', {
+                  idUsers: this.state.idUsers,
+                })
               }
             >
               <Icon style={Styling.white} type="FontAwesome5" name="plus"/>

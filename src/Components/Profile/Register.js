@@ -59,7 +59,7 @@ class Register extends Component {
 
   async componentDidUpdate (prevProps, prevState) {
     if (prevState.isSubmit !== this.state.isSubmit) {
-      await console.log(this.state)
+      await console.log(this.state);
       if (this.state.name !== null && this.state.username !== null && this.state.password !== null && this.state.email !== null && this.state.role !== 0) {
         const body = {
           name_users: this.state.name,
@@ -98,8 +98,8 @@ class Register extends Component {
    */
   async isNotUnique (responseApi) {
     const responseApiCode = responseApi.data.payload.code;
-    const uniqueErrorCatchCode = "23502";
-    await console.log(responseApi)
+    const uniqueErrorCatchCode = '23502';
+    await console.log(responseApi);
     if (responseApiCode === uniqueErrorCatchCode) {
       await this.setState({
         isSubmit: false,
@@ -115,7 +115,7 @@ class Register extends Component {
           title: null,
           subTitle: null,
         });
-        this.props.navigation.replace('RegisterScreen')
+        this.props.navigation.replace('RegisterScreen');
       }, 2000);
     }
     if (responseApiCode !== uniqueErrorCatchCode) {
@@ -133,7 +133,7 @@ class Register extends Component {
           title: null,
           subTitle: null,
         });
-        this.props.navigation.replace('LoginScreen')
+        this.props.navigation.replace('LoginScreen');
       }, 2000);
     }
   }
@@ -171,204 +171,183 @@ class Register extends Component {
               }}>Register</Title>
             </Body>
           </Header>
-          <Grid>
-            <Row size={60}>
-              <Content padder style={Styling.bgPrimary}>
-                <Body>
-                  <Image
-                    style={{
-                      width: 200,
-                      height: 100,
-                      resizeMode: 'contain',
-                    }}
-                    source={require('../../Assets/Image/Logo/logo_transparent_white.png')}
-                  />
-                </Body>
-                <Form>
-                  <Item
-                    picker
-                    rounded
-                    style={{
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                  <Picker
-                    mode="dropdown"
-                    style={{
-                      marginLeft: 30,
-                      marginRight: 30,
-                    }}
-                    selectedValue={this.state.role}
-                    onValueChange={
-                      async value => {
-                        await this.setState({
-                          role: value,
-                        });
-                      }
+          <Content padder style={Styling.bgWhite}>
+            <Body>
+              <Image
+                style={{
+                  width: 200,
+                  height: 100,
+                  resizeMode: 'contain',
+                }}
+                source={require('../../Assets/Image/Logo/logo_transparent.png')}
+              />
+            </Body>
+            <Form>
+              <Item
+                picker
+                rounded
+                style={{
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Picker
+                  mode="dropdown"
+                  style={{
+                    marginLeft: 30,
+                    marginRight: 30,
+                  }}
+                  selectedValue={this.state.role}
+                  onValueChange={
+                    async value => {
+                      await this.setState({
+                        role: value,
+                      });
                     }
-                  >
-                    <Picker.Item label="-- Select your role --" value="0"/>
-                    <Picker.Item label="Engineer" value="2"/>
-                    <Picker.Item label="Partner" value="3"/>
-                  </Picker>
-                  </Item>
-                  <Item
-                    rounded
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='FontAwesome5'
-                      name='id-card'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Name'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            name: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                  <Item
-                    rounded
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='SimpleLineIcons'
-                      name='user'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Username'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            username: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                  <Item
-                    rounded
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='SimpleLineIcons'
-                      name='key'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Password'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            password: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                  <Item
-                    rounded
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: Styling.white.color,
-                    }}
-                  >
-                    <Icon
-                      active
-                      type='SimpleLineIcons'
-                      name='envelope'
-                      style={{
-                        paddingLeft: 30,
-                      }}
-                    />
-                    <Input
-                      placeholder='Email'
-                      onChangeText={
-                        async value => {
-                          await this.setState({
-                            email: value,
-                          });
-                        }
-                      }
-                    />
-                  </Item>
-                </Form>
-              </Content>
-            </Row>
-            <Row size={40}>
-              <Content padder>
-                <Button
-                  rounded
-                  block
-                  style={{
-                    backgroundColor: Styling.primary.color,
-                    marginTop: 10,
-                  }}
-                  onPress={
-                    () => this.loginHandler()
                   }
                 >
-                  <Text>Submit</Text>
-                </Button>
-                <Button
-                  rounded
-                  bordered
-                  block
-                  info
+                  <Picker.Item label="-- Select your role --" value="0"/>
+                  <Picker.Item label="Engineer" value="2"/>
+                  <Picker.Item label="Partner" value="3"/>
+                </Picker>
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='FontAwesome5'
+                  name='id-card'
                   style={{
-                    marginTop: 20,
+                    paddingLeft: 30,
                   }}
-                  onPress={
-                    () => this.props.navigation.replace('LoginScreen')
+                />
+                <Input
+                  placeholder='Name'
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        name: value,
+                      });
+                    }
                   }
-                >
-                  <Text>Back to login</Text>
-                </Button>
-                {
-                  this.state.showToast
-                    ? <AlertCard
-                      marginTop={20}
-                      bgColor={this.state.color}
-                      title={this.state.title}
-                      subTitle={this.state.subTitle}
-                    />
-                    : null
-                }
-              </Content>
-            </Row>
-          </Grid>
+                />
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='SimpleLineIcons'
+                  name='user'
+                  style={{
+                    paddingLeft: 30,
+                  }}
+                />
+                <Input
+                  placeholder='Username'
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        username: value,
+                      });
+                    }
+                  }
+                />
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='SimpleLineIcons'
+                  name='key'
+                  style={{
+                    paddingLeft: 30,
+                  }}
+                />
+                <Input
+                  placeholder='Password'
+                  secureTextEntry={true}
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        password: value,
+                      });
+                    }
+                  }
+                />
+              </Item>
+              <Item
+                rounded
+                style={{
+                  marginTop: 10,
+                  backgroundColor: Styling.white.color,
+                }}
+              >
+                <Icon
+                  active
+                  type='SimpleLineIcons'
+                  name='envelope'
+                  style={{
+                    paddingLeft: 30,
+                  }}
+                />
+                <Input
+                  placeholder='Email'
+                  onChangeText={
+                    async value => {
+                      await this.setState({
+                        email: value,
+                      });
+                    }
+                  }
+                />
+              </Item>
+            </Form>
+            <Button
+              rounded
+              block
+              style={{
+                backgroundColor: Styling.primary.color,
+                marginTop: 20,
+              }}
+              onPress={
+                () => this.loginHandler()
+              }
+            >
+              <Text>Submit</Text>
+            </Button>
+            {
+              this.state.showToast
+                ? <AlertCard
+                  marginTop={20}
+                  bgColor={this.state.color}
+                  title={this.state.title}
+                  subTitle={this.state.subTitle}
+                />
+                : null
+            }
+          </Content>
         </Container>
-    );
+      );
     }
-    }
-    }
+  }
+}
 
-    const mapDispatchToProps = dispatch => {
-      return bindActionCreators({authentication, readById}, dispatch);
-    };
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({authentication, readById}, dispatch);
+};
 
-    export default connect(null, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(Register);
