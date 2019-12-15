@@ -87,10 +87,21 @@ class Profile extends Component {
       return (
         <Container>
           <Header transparent androidStatusBarColor={Styling.statusBar}>
-            <Left style={{flex: 0.74}}/>
+            <Left style={{flex: 1}}/>
             <Body>
               <Title style={Styling.primary}>Profile</Title>
             </Body>
+            <Right style={{flex: 0.35}}>
+              <Button
+                iconRight
+                transparent
+                onPress={
+                  () => this.logoutHandler()
+                }
+              >
+                <Icon style={Styling.red} type="SimpleLineIcons" name="power" />
+              </Button>
+            </Right>
           </Header>
           <Image
             source={{
@@ -102,25 +113,30 @@ class Profile extends Component {
             <Card
               style={{
                 borderRadius: 8,
+                backgroundColor: Styling.primary.color,
               }}
             >
               <CardItem
                 bordered
                 header
                 style={{
-                  backgroundColor: Styling.white.color,
+                  backgroundColor: Styling.primary.color,
                   borderTopRightRadius: 8,
                   borderTopLeftRadius: 8,
                 }}
               >
                 <Title
-                  style={Styling.primary}
+                  style={Styling.white}
                 >
                   {this.state.propsProfile.name_users}
                 </Title>
               </CardItem>
               <CardItem
                 bordered
+                style={{
+                  borderBottomRightRadius: 8,
+                  borderBottomLeftRadius: 8,
+                }}
               >
                 <Title
                   style={Styling.primary}
@@ -128,15 +144,6 @@ class Profile extends Component {
                   {this.state.propsProfile.role_name.toUpperCase()}
                 </Title>
               </CardItem>
-              <CardItem
-                bordered
-                style={{
-                  backgroundColor: Styling.black.color,
-                  borderBottomRightRadius: 8,
-                  borderBottomLeftRadius: 8,
-                  paddingBottom: 0
-                }}
-              />
             </Card>
             {
               propsProfile.role_users === 2
@@ -146,16 +153,6 @@ class Profile extends Component {
                 />
                 : null
             }
-            <Button
-              block
-              rounded
-              danger
-              onPress={
-                () => this.logoutHandler()
-              }
-            >
-              <Text>Logout</Text>
-            </Button>
           </Content>
           <MenuFooter
             navigation={this.props.navigation}

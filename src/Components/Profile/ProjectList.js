@@ -88,7 +88,9 @@ class ProjectList extends Component {
           {
             propsProject.length > 0
               ? propsProject.map((item, index) => {
-                return <CardItem key={index}>
+                return <CardItem
+                  bordered
+                  key={index}>
                   <Body>
                     <Button
                       transparent
@@ -118,7 +120,7 @@ class ProjectList extends Component {
           }
           <CardItem
             style={{
-              backgroundColor: Styling.black.color,
+              backgroundColor: Styling.white.color,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
               paddingBottom: 0

@@ -105,14 +105,14 @@ class ProjectOption extends Component {
                 header
                 bordered
                 style={{
-                  backgroundColor: Styling.white.color,
+                  backgroundColor: Styling.primary.color,
                   borderTopLeftRadius: 8,
                   borderTopRightRadius: 8,
                 }}>
                 <Body>
                   <Title
                     style={{
-                      color: Styling.primary.color,
+                      color: Styling.white.color,
                     }}
                   >{this.props.navigation.state.params.name}</Title>
                 </Body>
@@ -138,11 +138,17 @@ class ProjectOption extends Component {
                   () => this.acceptHandler()
                 }
               >
-                <Text>Accept</Text>
+                <Text
+                  style={{
+                    color: Styling.black.color
+                  }}
+                >Accept</Text>
               </Button>
               <Button
                 full
                 style={{
+                  borderBottomLeftRadius: 8,
+                  borderBottomRightRadius: 8,
                   backgroundColor: Styling.red.color,
                 }}
                 onPress={
@@ -151,14 +157,6 @@ class ProjectOption extends Component {
               >
                 <Text>Decline</Text>
               </Button>
-              <CardItem
-                style={{
-                  backgroundColor: Styling.black.color,
-                  borderBottomLeftRadius: 8,
-                  borderBottomRightRadius: 8,
-                  paddingBottom: 0,
-                }}
-              />
             </Card>
           </Content>
         </Container>

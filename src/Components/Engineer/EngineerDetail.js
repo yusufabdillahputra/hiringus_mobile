@@ -100,7 +100,12 @@ class EngineerDetail extends Component {
   }
 
   async componentDidMount () {
-    await this.getData();
+    const jwt = this.props.auth.token;
+    if (jwt !== 'null') {
+      await this.getData();
+    } else {
+      this.props.navigation.replace('EngineerScreen')
+    }
   }
 
   async getData () {
