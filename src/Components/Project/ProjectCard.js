@@ -14,68 +14,75 @@ import {
   Body,
   Text,
   Button,
-  Right,
+  Icon,
   Left,
 } from 'native-base';
 import Styling from '../../Global/StyleSheet';
+import { TouchableNativeFeedback } from 'react-native';
 
 class ProjectCard extends Component {
 
   render () {
     return (
-      <Card
-        style={{
-          borderRadius: 8,
-        }}
+      <TouchableNativeFeedback
+        onPress={
+          () => this.props.navigation.replace('ProjectDetailScreen', {
+            propsProject: this.props.propsProject
+          })
+        }
       >
-        <CardItem
-          header
-          bordered
+        <Card
           style={{
-            backgroundColor: Styling.white.color,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-          }}>
-          <Body>
-            <Title
-              style={{
-                color: Styling.primary.color,
-              }}
-            >{this.props.name}</Title>
-          </Body>
-        </CardItem>
-        <CardItem bordered>
-          <Left>
-            <Text>
-              Expires
-            </Text>
-          </Left>
-          <Body>
-            <Text>
-              {moment(this.props.deadline, "YYYYMMDD").fromNow()}
-            </Text>
-          </Body>
-        </CardItem>
-        <Button
-          full
-          style={{
-            backgroundColor: Styling.primary.color,
+            borderRadius: 8,
           }}
-          onPress={
-            () => this.props.navigation.navigate('HomeScreen')
-          }
         >
-          <Text>Detail</Text>
-        </Button>
-        <CardItem
-          style={{
-            backgroundColor: Styling.black.color,
-            borderBottomLeftRadius: 8,
-            borderBottomRightRadius: 8,
-            paddingBottom: 0,
-          }}
-        />
-      </Card>
+          <CardItem
+            header
+            bordered
+            style={{
+              backgroundColor: Styling.white.color,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+            }}>
+            <Body>
+              <Title
+                style={{
+                  color: Styling.primary.color,
+                }}
+              >{this.props.name}</Title>
+            </Body>
+          </CardItem>
+          <CardItem bordered>
+            <Left>
+              <Text>
+                Expires
+              </Text>
+            </Left>
+            <Body>
+              <Text>
+                {moment(this.props.deadline, "YYYYMMDD").fromNow()}
+              </Text>
+            </Body>
+          </CardItem>
+          <Button
+            iconLeft
+            full
+            style={{
+              backgroundColor: Styling.primary.color,
+              borderBottomLeftRadius: 8,
+              borderBottomRightRadius: 8,
+            }}
+            onPress={
+              () => this.props.navigation.replace('ProjectDetailScreen', {
+                propsProject: this.props.propsProject
+              })
+            }
+          >
+            <Icon type='FontAwesome5' name='book' />
+            <Text>Detail</Text>
+          </Button>
+        </Card>
+      </TouchableNativeFeedback>
     );
   }
 }

@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableNativeFeedback } from 'react-native';
 import {
   Card,
   CardItem,
@@ -95,12 +95,20 @@ class EngineerCard extends Component {
             </Body>
           </CardItem>
           <CardItem cardBody bordered>
-            <Image
-              source={{
-                uri: `${baseUriApi}/engineer/${this.props.image}`,
-              }}
-              style={{height: 200, width: null, flex: 1}}
-            />
+            <TouchableNativeFeedback
+              onPress={
+                () => this.props.navigation.replace('EngineerDetailScreen', {
+                  idUsers: this.props.id
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri: `${baseUriApi}/engineer/${this.props.image}`,
+                }}
+                style={{height: 200, width: null, flex: 1}}
+              />
+            </TouchableNativeFeedback>
           </CardItem>
           <CardItem bordered>
             <Left>
@@ -114,7 +122,13 @@ class EngineerCard extends Component {
               </Text>
             </Body>
           </CardItem>
-          <CardItem bordered>
+          <CardItem
+            bordered
+            style={{
+              borderBottomLeftRadius: 8,
+              borderBottomRightRadius: 8,
+            }}
+          >
             <Left>
               <Text>
                 Success Rate
@@ -126,27 +140,6 @@ class EngineerCard extends Component {
               </Text>
             </Body>
           </CardItem>
-          <Button
-            full
-            style={{
-              backgroundColor: Styling.primary.color,
-            }}
-            onPress={
-              () => this.props.navigation.replace('EngineerDetailScreen', {
-                idUsers: this.props.id
-              })
-            }
-          >
-            <Text>Detail</Text>
-          </Button>
-          <CardItem
-            style={{
-              backgroundColor: Styling.black.color,
-              borderBottomLeftRadius: 8,
-              borderBottomRightRadius: 8,
-              paddingBottom: 0,
-            }}
-          />
         </Card>
       );
     }

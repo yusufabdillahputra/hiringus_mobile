@@ -16,7 +16,11 @@ import {
   Button,
   Text,
   Content,
-  View, Body, Title, Right,
+  Fab,
+  View,
+  Body,
+  Title,
+  Right,
 } from 'native-base';
 import MenuFooter from '../Global/Menu/MenuFooter';
 
@@ -37,7 +41,7 @@ class Project extends Component {
       isUnauthorized: false,
       isLoading: true,
       propsProject: null,
-    }
+    };
   }
 
   async componentDidMount () {
@@ -54,17 +58,17 @@ class Project extends Component {
       } else {
         this.setState({
           isLoading: false,
-          isUnauthorized: false
-        })
-        this.props.navigation.replace('LoginScreen')
+          isUnauthorized: false,
+        });
+        this.props.navigation.replace('LoginScreen');
       }
     }
     if (jwt === null) {
       this.setState({
         isLoading: false,
-        isUnauthorized: false
-      })
-      this.props.navigation.replace('LoginScreen')
+        isUnauthorized: false,
+      });
+      this.props.navigation.replace('LoginScreen');
     }
   }
 
@@ -73,30 +77,27 @@ class Project extends Component {
     return project.value.data;
   }
 
-
   render () {
     if (this.state.isLoading) {
       return <LoadingScreen color={'skyblue'}/>;
     } else {
-      const { propsProject } = this.state
+      const {propsProject} = this.state;
       return (
         <Container>
           <Header transparent androidStatusBarColor={Styling.statusBar}>
-            <Left style={{flex: 0.77}} >
-              <Button
-                iconRight
-                transparent
-                onPress={
-                  () => this.props.navigation.replace('ProjectCreate')
-                }
-              >
-                <Icon style={Styling.primary} type="FontAwesome5" name="plus" />
-              </Button>
-            </Left>
-            <Body>
-              <Title style={Styling.primary}>All Projects</Title>
+            <Left style={{
+              flex: 1,
+            }}/>
+            <Body
+              style={{
+                flex: 0,
+              }}
+            >
+              <Title style={{
+                color: Styling.primary.color,
+              }}>All Projects</Title>
             </Body>
-            <Right style={{flex: 0.35}}>
+            <Right>
               <Button
                 iconRight
                 transparent
@@ -104,26 +105,41 @@ class Project extends Component {
                   () => this.props.navigation.replace('ProjectSearchScreen')
                 }
               >
-                <Icon style={Styling.primary} type="FontAwesome5" name="search" />
+                <Icon style={Styling.primary} type="FontAwesome5" name="search"/>
               </Button>
             </Right>
           </Header>
-          <Content padder>
-            {
-              propsProject !== null
-                ? propsProject.map((item, index) => {
-                  return <ProjectCard
-                    id={item.id_project}
-                    name={item.name_project}
-                    deadline={item.deadline_project}
-                    navigation={this.props.navigation}
-                    key={index}
-                  />
-                })
-                : <EmptyResponse />
-            }
-          </Content>
-
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            <Content padder>
+              {
+                propsProject !== null
+                  ? propsProject.map((item, index) => {
+                    return <ProjectCard
+                      id={item.id_project}
+                      name={item.name_project}
+                      deadline={item.deadline_project}
+                      propsProject={item}
+                      navigation={this.props.navigation}
+                      key={index}
+                    />;
+                  })
+                  : <EmptyResponse/>
+              }
+            </Content>
+            <Fab
+              style={Styling.bgPrimary}
+              position="bottomRight"
+              onPress={
+                () => this.props.navigation.replace('ProjectCreate')
+              }
+            >
+              <Icon style={Styling.white} type="FontAwesome5" name="plus"/>
+            </Fab>
+          </View>
           <MenuFooter
             navigation={this.props.navigation}
           />
@@ -134,7 +150,6 @@ class Project extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
     data: state,
   };
